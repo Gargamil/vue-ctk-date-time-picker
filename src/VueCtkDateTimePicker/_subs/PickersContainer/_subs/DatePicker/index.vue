@@ -84,6 +84,7 @@
         </div>-->
         <div style="width: 100%">
           <WeekDays
+            :range="range"
             :week-days="weekDays"
             :dark="dark"
           />
@@ -103,13 +104,15 @@
                   </div>
                   -->
                   <div class="datepicker-days flex flex-1">
-                    <div
+                    <button
+                      type="button"
+                      v-if="range && weekStart>0"
                       @click="selectWeek(monthDays[0])"
                       style="width: calc(100% / 8)"
                       class="enable datepicker-day flex  align-center justify-content-center"
                     >
                       {{ monthDays[0].week() }}
-                    </div>
+                    </button>
 
                     <div
                       v-for="start in weekStart"
@@ -120,8 +123,9 @@
                     >
                       <button
                         @click="selectWeek(day)"
-                        v-if="(isStartOfWeek(day.day()))"
+                        v-if="range &&  (isStartOfWeek(day.day()))"
                         style="width: calc(100% / 8)"
+                        type="button"
                         class="enable datepicker-day flex  align-center justify-content-center"
                       >
                         {{ day.week() }}
@@ -136,6 +140,7 @@
                 first: firstInRange(day) && range,
                 last: lastInRange(day) && !!value.end && range
               }"
+                        :style="range?'width: calc(100% / 8)':'width: calc(100% / 7);'"
                         :disabled="isDisabled(day) || isWeekEndDay(day)"
                         type="button"
                         tabindex="-1"

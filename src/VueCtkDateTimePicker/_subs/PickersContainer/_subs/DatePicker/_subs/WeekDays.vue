@@ -15,7 +15,7 @@
         :class="{'is-dark': dark}"
         class="week-days flex"
       >
-        <div class="flex-1 text-muted lm-fs-12 flex justify-content-center align-center week-days-container">KW</div>
+        <div v-if="range" class="flex-1 text-muted lm-fs-12 flex justify-content-center align-center week-days-container">KW</div>
         <div
           v-for="(weekDay, index) in weekDays"
           :key="index"
@@ -31,7 +31,8 @@ export default {
   name: 'WeekDays',
   props: {
     weekDays: {type: Array, default: () => ([]), required: true},
-    dark: {type: Boolean, default: null}
+    dark: {type: Boolean, default: null},
+    range: {type: Boolean, default: false}
   }
 }
 </script>
