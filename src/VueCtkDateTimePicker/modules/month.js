@@ -1,9 +1,10 @@
 import Moment from 'moment'
-import { extendMoment } from 'moment-range'
+import {extendMoment} from 'moment-range'
+
 const moment = extendMoment(Moment)
 
 export default class Month {
-  constructor (month, year, locale) {
+  constructor(month, year, locale) {
     moment.locale(locale)
     this.start = moment([year, month])
     this.end = this.start.clone().endOf('month')
@@ -11,26 +12,44 @@ export default class Month {
     this.year = year
   }
 
-  getWeekStart () {
+  getWeekStart() {
     return this.start.weekday()
   }
 
-  getFormatted () {
+  getFormatted() {
     return this.start.format('MMMM')
   }
 
-  getYear () {
+  getYear() {
     return this.start.format('YYYY')
   }
 
-  getWeeks () {
+  getWeeks() {
     return this.end.week() - this.start.week() + 1
   }
 
-  getMonthDays () {
+ getWeeknumberFromDate(){
+
+ }
+
+  isStartOfWeek(weekDay, locale, firstDay) {
+    const firstdayNumber = getFirstDay(locale,firstDay);
+
+    return firstdayNumber === weekDay;
+
+  }
+
+  getMonthDays() {
     const r1 = moment.range(this.start, this.end).by('days')
     return Array.from(r1)
   }
+}
+
+export const getFirstDay = (locale, firstDay) => {
+  const firstDayNumber = firstDay === 0
+    ? 7
+    : firstDay || moment.localeData(locale).firstDayOfWeek();
+  return firstDayNumber;
 }
 
 export const getWeekDays = (locale, firstDay) => {
